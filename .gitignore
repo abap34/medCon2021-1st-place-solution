@@ -1,2 +1,4 @@
-data/*
 *.pyc
+.idea
+data/*
+logs/*/models/*
