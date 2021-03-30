@@ -1,5 +1,5 @@
 import os
-
+import datetime
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -26,14 +26,22 @@ def read_wave(paths):
 
 def seed_everything(seed=0):
     physical_devices = tf.config.list_physical_devices('GPU')
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
+    if len(physical_devices) != 0:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
     np.random.seed(seed)
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     os.environ['TF_DETERMINISTIC_OPS'] = '1'
     os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
+
+def info(*messages):
+    m = ""
+    for massage in messages:
+        m += str(massage)
+    dt_now = datetime.datetime.now()
+    t = dt_now.strftime('[%H:%M:%S]')
+    print('[info] {} {}'.format(t, m))
 
 class SAM:
     def __init__(self, base_optimizer, rho=0.05):

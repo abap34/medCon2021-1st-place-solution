@@ -1,22 +1,20 @@
-from omegaconf import OmegaConf
 import sys
-
 sys.path.append("./models/")
-import utils
+import warnings
+warnings.filterwarnings('ignore')
 
-# from wavenet import WaveNet
-# from resnet_1 import ResNet_1
+from omegaconf import OmegaConf
+import numpy as np
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import roc_auc_score
+
+import utils
+from model import BaseModel
 import wavenet
 import resnet_1
 import resnet_2
 import lstm
 
-from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import roc_auc_score
-
-import numpy as np
-
-from model import BaseModel
 
 MODEL_NAMES_DICT = {
     'wavenet': wavenet.Model,
@@ -25,12 +23,11 @@ MODEL_NAMES_DICT = {
     "lstm": lstm.Model
 }
 
-
 def main(param):
     utils.seed_everything(0)
-    print('read csv...')
+    utils.info('read csv...')
     train, test, submit = utils.read_data("./data")
-    print('read wave data...')
+    utils.info('read wave data...')
     train_wave = utils.read_wave("./data/ecg/" + train["Id"] + ".npy")
     test_wave = utils.read_wave("./data/ecg/" + test["Id"] + ".npy")
     train_y = train["target"]
@@ -53,8 +50,10 @@ def main(param):
 
     val_preds = np.zeros(train_meta_human.shape[0])
 
+    utils.info('start training...')
+
     for (fold, (train_index, val_index)) in enumerate(kf.split(train_meta_human, train_y_human)):
-        print(f"{'=' * 20} fold {fold + 1} {'=' * 20}")
+        utils.info(f"{'=' * 20} fold {fold + 1} {'=' * 20}")
 
         # foldごとに定義しないとリークしてしまう
         model = MODEL_NAMES_DICT[param.model_name](param)
@@ -92,10 +91,10 @@ def main(param):
 
         val_preds[val_index] += val_pred
 
-    print("AUC score:", roc_auc_score(train_y[human_mask], val_preds))
+    utils.info("AUC score:", roc_auc_score(train_y[human_mask], val_preds))
 
 
 if __name__ == '__main__':
     param = OmegaConf.from_cli()
-    print('params:', param)
+    utils.info('params:', param)
     main(param)

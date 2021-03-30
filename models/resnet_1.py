@@ -1,11 +1,11 @@
-import tensorflow as tf
-import tensorflow_addons as tfa
 import utils
 from model import BaseModel
+
+import tensorflow as tf
+import tensorflow_addons as tfa
 from tensorflow.keras import losses
-from tensorflow.keras.layers import Conv1D
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import MaxPooling1D, Add, Activation
+from tensorflow.keras.layers import (Activation, Add, Conv1D, Dense,
+                                     MaxPooling1D)
 from tensorflow.keras.optimizers import Adam
 
 

@@ -1,15 +1,11 @@
+from model import BaseModel
+
 import tensorflow as tf
 import tensorflow_addons as tfa
-from tensorflow.keras import losses
-from tensorflow.keras import models
-from tensorflow.keras.layers import Add
-from tensorflow.keras.layers import Conv1D
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import GlobalAveragePooling1D
-from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Multiply
+from tensorflow.keras import losses, models
+from tensorflow.keras.layers import (Add, Conv1D, Dense,
+                                     GlobalAveragePooling1D, Input, Multiply)
 from tensorflow.keras.optimizers import Adam
-from model import BaseModel
 
 
 def WaveNetResidualConv1D(num_filters, kernel_size, stacked_layer):

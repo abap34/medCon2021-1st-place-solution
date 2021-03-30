@@ -1,10 +1,12 @@
 import os
+from logging import warn
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
-
 from omegaconf import OmegaConf
+
+import utils
 
 
 class BaseModel:
@@ -20,7 +22,7 @@ class BaseModel:
         # 学習
         # --------------------------------------------------
         checkpoint_filepath = './logs/{}/models/fold-{}.ckpt'.format(self.params.model_name, fold_index)
-
+        utils.info('checkpoint_filepath:', checkpoint_filepath)
         model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
             save_weights_only=True,
@@ -43,7 +45,6 @@ class BaseModel:
         )
 
         # --------------------------------------------------
-
         # log(学習曲線とloss推移)
         # --------------------------------------------------
 
