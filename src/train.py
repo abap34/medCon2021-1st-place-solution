@@ -9,6 +9,7 @@ import utils
 import wavenet
 import resnet_1
 import resnet_2
+import lstm
 
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
@@ -21,6 +22,7 @@ MODEL_NAMES_DICT = {
     'wavenet': wavenet.get_model,
     "resnet_1": resnet_1.get_model,
     "resnet_2": resnet_2.get_model,
+    "lstm": lstm.get_model
 }
 
 
