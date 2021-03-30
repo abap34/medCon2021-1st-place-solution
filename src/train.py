@@ -74,7 +74,7 @@ def main(param):
             [val_input_wave, val_input_meta],
             val_y_concat,
             fold 
-        )
+        )[:, 0]
 
         # foldを忘れないよう注意. fitの帰り値はval_pred
 
