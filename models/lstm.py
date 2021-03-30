@@ -1,14 +1,14 @@
+import utils
+from model import BaseModel
+
 import tensorflow as tf
 import tensorflow_addons as tfa
-import utils
 from tensorflow.keras import losses
 from tensorflow.keras.layers import Activation  # , Dropout
-from tensorflow.keras.layers import Conv1D
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import GlobalAveragePooling1D
-from tensorflow.keras.layers import LSTM, Bidirectional, BatchNormalization, Dropout
+from tensorflow.keras.layers import (LSTM, BatchNormalization, Bidirectional,
+                                     Conv1D, Dense, Dropout,
+                                     GlobalAveragePooling1D)
 from tensorflow.keras.optimizers import Adam
-from model import BaseModel
 
 
 def get_model(input_shape=(800, 12)):
