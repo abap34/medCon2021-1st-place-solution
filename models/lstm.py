@@ -8,6 +8,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import GlobalAveragePooling1D
 from tensorflow.keras.layers import LSTM, Bidirectional, BatchNormalization, Dropout
 from tensorflow.keras.optimizers import Adam
+from model import BaseModel
 
 
 def get_model(input_shape=(800, 12)):
@@ -57,3 +58,7 @@ def get_model(input_shape=(800, 12)):
 
     return model
 
+
+class Model(BaseModel):
+    def __init__(self, params):
+        super().__init__(params, get_model())

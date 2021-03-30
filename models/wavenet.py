@@ -9,6 +9,7 @@ from tensorflow.keras.layers import GlobalAveragePooling1D
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Multiply
 from tensorflow.keras.optimizers import Adam
+from model import BaseModel
 
 
 def WaveNetResidualConv1D(num_filters, kernel_size, stacked_layer):
@@ -53,3 +54,7 @@ def get_model(input_shape=(800, 12)):
     model.compile(loss=losses.BinaryCrossentropy(label_smoothing=0.001), metrics=['AUC'], optimizer=opt)
     return model
 
+
+class Model(BaseModel):
+    def __init__(self, params):
+        super().__init__(params, get_model())

@@ -62,10 +62,7 @@ def main(param):
         print(f"{'=' * 20} fold {fold + 1} {'=' * 20}")
 
         # foldごとに定義しないとリークしてしまう
-        model = BaseModel(
-            param,  # パラメータ
-            MODEL_NAMES_DICT[param.model_name]()  # コンパイル済みのモデル
-        )
+        model = MODEL_NAMES_DICT[param.model_name](param)
 
         test_preds[fold] = model.predict([test_wave, test[["sex", "age"]]], fold)
 

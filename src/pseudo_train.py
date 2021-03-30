@@ -19,10 +19,10 @@ import numpy as np
 from model import BaseModel
 
 MODEL_NAMES_DICT = {
-    'wavenet': wavenet.get_model,
-    "resnet_1": resnet_1.get_model,
-    "resnet_2": resnet_2.get_model,
-    "lstm": lstm.get_model
+    'wavenet': wavenet.Model,
+    "resnet_1": resnet_1.Model,
+    "resnet_2": resnet_2.Model,
+    "lstm": lstm.Model
 }
 
 
@@ -58,10 +58,7 @@ def main(param):
         print(f"{'=' * 20} fold {fold+1} {'=' * 20}")
 
         # foldごとに定義しないとリークしてしまう
-        model = BaseModel(
-            param,  # パラメータ
-            MODEL_NAMES_DICT[param.model_name]()  # コンパイル済みのモデル
-        )
+        model = MODEL_NAMES_DICT[param.model_name](param)
 
         train_input_wave = np.concatenate([
             train_wave_human[train_index],

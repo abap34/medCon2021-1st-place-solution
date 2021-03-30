@@ -19,10 +19,10 @@ import numpy as np
 from model import BaseModel
 
 MODEL_NAMES_DICT = {
-    'wavenet': wavenet.get_model,
-    "resnet_1": resnet_1.get_model,
-    "resnet_2": resnet_2.get_model,
-    "lstm": lstm.get_model
+    'wavenet': wavenet.Model,
+    "resnet_1": resnet_1.Model,
+    "resnet_2": resnet_2.Model,
+    "lstm": lstm.Model
 }
 
 
@@ -49,19 +49,15 @@ def main(param):
     train_y_human = train_y[human_mask]
     train_y_auto = train_y[~human_mask]
 
-
     kf = StratifiedKFold(n_splits=5, random_state=10, shuffle=True)
 
     val_preds = np.zeros(train_meta_human.shape[0])
 
     for (fold, (train_index, val_index)) in enumerate(kf.split(train_meta_human, train_y_human)):
-        print(f"{'=' * 20} fold {fold+1} {'=' * 20}")
+        print(f"{'=' * 20} fold {fold + 1} {'=' * 20}")
 
         # foldごとに定義しないとリークしてしまう
-        model = BaseModel(
-            param,  # パラメータ
-            MODEL_NAMES_DICT[param.model_name]()  # コンパイル済みのモデル
-        )
+        model = MODEL_NAMES_DICT[param.model_name](param)
 
         train_input_wave = np.concatenate([
             train_wave_human[train_index],

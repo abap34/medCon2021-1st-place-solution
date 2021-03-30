@@ -1,6 +1,7 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
 import utils
+from model import BaseModel
 from tensorflow.keras import losses
 from tensorflow.keras.layers import Conv1D
 from tensorflow.keras.layers import Dense
@@ -171,3 +172,8 @@ def get_model(input_shape=(800, 12)):
     model.compile(loss=losses.BinaryCrossentropy(label_smoothing=0.001), metrics=['AUC'], optimizer=opt)
 
     return model
+
+
+class Model(BaseModel):
+    def __init__(self, params):
+        super().__init__(params, get_model())
