@@ -1,3 +1,3 @@
 model_name: resnet_1
-epoch: 2
-batch_size: 8
+epoch: 20
+batch_size: 32
