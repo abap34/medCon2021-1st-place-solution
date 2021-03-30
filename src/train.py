@@ -43,7 +43,7 @@ def main(param):
 
     kf = StratifiedKFold(n_splits=5, random_state=10, shuffle=True)
     
-    val_preds = np.zeros(train.shape[0])
+    val_preds = np.zeros(train_meta_human.shape[0])
 
     for (fold, (train_index, val_index)) in enumerate(kf.split(train_meta_human, train_y_human)):
         train_input_wave = np.concatenate([
@@ -79,7 +79,7 @@ def main(param):
 
         val_preds[val_index] += val_pred
 
-    print("AUC score:", roc_auc_score(train_y, val_preds))
+    print("AUC score:", roc_auc_score(train_y[human_mask], val_preds))
 
 
 if __name__ == '__main__':
