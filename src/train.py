@@ -47,7 +47,11 @@ def main(param):
     train_y_human = train_y[human_mask]
     train_y_auto = train_y[~human_mask]
 
-    model = BaseModel(param, MODEL_NAMES_DICT[param.model_name]())
+    # モデル定義
+    model = BaseModel(
+        param,  # パラメータ
+        MODEL_NAMES_DICT[param.model_name]()  # コンパイル済みのモデル
+    )
 
     kf = StratifiedKFold(n_splits=5, random_state=10, shuffle=True)
 
