@@ -1,4 +1,6 @@
 from omegaconf import OmegaConf
+import pandas as pd
+import numpy as np
 import sys
 
 sys.path.append("./models/")
@@ -14,22 +16,46 @@ import lstm
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
 
-import numpy as np
-
-from model import BaseModel
-
 MODEL_NAMES_DICT = {
     'wavenet': wavenet.Model,
     "resnet_1": resnet_1.Model,
     "resnet_2": resnet_2.Model,
     "lstm": lstm.Model
 }
+THRESHOLD = 0.05
+FOR_PSEUDO_SUB = "./logs/lstm/submission.csv"  # 変えて
+
+
+def make_pseudo_labeled_data(train, test):
+    sub = pd.read_csv(FOR_PSEUDO_SUB)
+
+    pseudo_sub = sub[
+        (sub["target"] > (1 - THRESHOLD)) | (sub["target"] < THRESHOLD)
+    ]
+    pseudo_sub["target"] = np.round(pseudo_sub["target"]).astype(int)
+
+    pseudo_sub = pd.merge(pseudo_sub, test, on="Id", how="left")
+
+    data = pd.concat(
+        [
+            train,
+            pseudo_sub
+        ]
+    )
+    print("Threshold: ", THRESHOLD)
+    print("Used data for Pseudo Labeling: ", FOR_PSEUDO_SUB)
+    print("Num Pseudo Label: ", pseudo_sub.shape[0])
+    return data
 
 
 def main(param):
+    model_name = param.model_name
+    param["model_name"] = "pseudo_" + model_name
+
     utils.seed_everything(0)
     print('read csv...')
     train, test, submit = utils.read_data("./data")
+    train = make_pseudo_labeled_data(train, test)
     print('read wave data...')
     train_wave = utils.read_wave("./data/ecg/" + train["Id"] + ".npy")
     test_wave = utils.read_wave("./data/ecg/" + test["Id"] + ".npy")
@@ -57,7 +83,7 @@ def main(param):
         print(f"{'=' * 20} fold {fold + 1} {'=' * 20}")
 
         # foldごとに定義しないとリークしてしまう
-        model = MODEL_NAMES_DICT[param.model_name](param)
+        model = MODEL_NAMES_DICT[model_name](param)
 
         train_input_wave = np.concatenate([
             train_wave_human[train_index],

@@ -8,6 +8,7 @@ import tqdm
 
 def read_data(data_contain_path):
     train = pd.read_csv(data_contain_path + '/train.csv')
+
     test = pd.read_csv(data_contain_path + '/test.csv')
     train["is_train"] = True
     test["is_train"] = False
