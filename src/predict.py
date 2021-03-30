@@ -19,10 +19,10 @@ import numpy as np
 from model import BaseModel
 
 MODEL_NAMES_DICT = {
-    'wavenet': wavenet.get_model,
-    "resnet_1": resnet_1.get_model,
-    "resnet_2": resnet_2.get_model,
-    "lstm": lstm.get_model
+    'wavenet': wavenet.Model,
+    "resnet_1": resnet_1.Model,
+    "resnet_2": resnet_2.Model,
+    "lstm": lstm.Model
 }
 
 
