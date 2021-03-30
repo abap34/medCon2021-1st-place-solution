@@ -4,17 +4,19 @@ sys.path.append("./models/")
 import utils
 
 from wavenet import WaveNet
-
+from resnet_1 import ResNet_1
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
 
 import numpy as np
 
 MODEL_NAMES_DICT = {
-    'wavenet':WaveNet
+    'wavenet':WaveNet,
+    "resnet_1": ResNet_1
 }
 
 def main(param):
+    utils.seed_everything(0)
     print('read csv...')
     train, test, submit = utils.read_data("./data")
     print('read wave data...')
@@ -63,10 +65,7 @@ def main(param):
 
         val_input_meta = train_meta_human.iloc[val_index]
 
-        val_y_concat = np.concatenate([
-            train_y_human.iloc[val_index],
-            train_y_auto
-        ])
+        val_y_concat = train_y_human.iloc[val_index]
 
         val_pred = model.fit(
             [train_input_wave, train_input_meta],
