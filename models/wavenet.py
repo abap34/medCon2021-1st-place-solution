@@ -112,11 +112,11 @@ class WaveNet:
         plt.xlabel("Epoch")
         plt.grid()
         plt.legend(["Train", "Test"], loc="upper left")
-        plt.savefig("./logs/{}/losses/fold-{}".format(self.params.model_name, fold_index))
+        plt.savefig("./logs/{}/losses/fold-{}.png".format(self.params.model_name, fold_index))
         plt.clf()
 
         learning_logs = pd.DataFrame(history.history)
-        learning_logs.to_csv('./logs/{}/losses/log.csv'.format(self.params.model_name, fold_index))
+        learning_logs.to_csv('./logs/{}/losses/fold-{}log.csv'.format(self.params.model_name, fold_index))
         OmegaConf.save(self.params, './logs/{}/params.yaml'.format(self.params.model_name, fold_index))
 
         # --------------------------------------------------
