@@ -1,4 +1,4 @@
-import model
+from . import core_model
 
 import tensorflow as tf
 import tensorflow_addons as tfa
@@ -64,7 +64,7 @@ def get_model(input_shape=(800, 12)):
     z = Dense(32, activation="tanh")(combined)
     z = Dense(1, activation="sigmoid")(z)
 
-    model = model.SAMModel(
+    model = core_model.SAMModel(
         inputs=[
             input1,
             input2
@@ -79,6 +79,6 @@ def get_model(input_shape=(800, 12)):
     return model
 
 
-class Model(model.BaseModel):
+class Model(core_model.BaseModel):
     def __init__(self, params):
         super().__init__(params, get_model())

@@ -1,5 +1,5 @@
 import utils
-from .models import wavenet, lstm, resnet_1, resnet_2
+from models import wavenet, lstm, resnet_1, resnet_2
 
 from omegaconf import OmegaConf
 import pandas as pd
