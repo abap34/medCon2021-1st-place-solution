@@ -1,6 +1,8 @@
-import sys
-sys.path.append("./models/")
+import utils
+from models import wavenet, lstm, resnet_1, resnet_2
+
 import warnings
+
 warnings.filterwarnings('ignore')
 
 from omegaconf import OmegaConf
@@ -8,20 +10,13 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
 
-import utils
-from model import BaseModel
-import wavenet
-import resnet_1
-import resnet_2
-import lstm
-
-
 MODEL_NAMES_DICT = {
     'wavenet': wavenet.Model,
     "resnet_1": resnet_1.Model,
     "resnet_2": resnet_2.Model,
     "lstm": lstm.Model
 }
+
 
 def main(param):
     utils.seed_everything(0)
