@@ -1,17 +1,9 @@
+import utils
+from models import wavenet, lstm, resnet_1, resnet_2
+
 from omegaconf import OmegaConf
 import pandas as pd
 import numpy as np
-import sys
-
-sys.path.append("./models/")
-import utils
-
-# from wavenet import WaveNet
-# from resnet_1 import ResNet_1
-import wavenet
-import resnet_1
-import resnet_2
-import lstm
 
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
@@ -31,7 +23,7 @@ def make_pseudo_labeled_data(train, test):
 
     pseudo_sub = sub[
         (sub["target"] > (1 - THRESHOLD)) | (sub["target"] < THRESHOLD)
-    ]
+        ]
     pseudo_sub["target"] = np.round(pseudo_sub["target"]).astype(int)
 
     pseudo_sub = pd.merge(pseudo_sub, test, on="Id", how="left")
