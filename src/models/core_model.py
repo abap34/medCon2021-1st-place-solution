@@ -1,5 +1,3 @@
-import utils
-
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -19,7 +17,6 @@ class BaseModel:
     def fit(self, train_x, train_y, val_x, val_y, fold_index):
 
         checkpoint_filepath = './logs/{}/models/fold-{}.ckpt'.format(self.params.model_name, fold_index)
-        utils.info('checkpoint_filepath:', checkpoint_filepath)
         model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
             save_weights_only=True,
@@ -129,6 +126,8 @@ def sam_train_step(self, data, rho=0.05):
     self.compiled_metrics.update_state(y, y_pred)
     # Return a dict mapping metric names to current value
     return {m.name: m.result() for m in self.metrics}
+
+
 
 
 class SAMModel(tf.keras.Model):
