@@ -15,37 +15,45 @@ https://docs.google.com/presentation/d/1zEko7m5alvMbFL09ImxFmKA8heCwzVzMXy1fQay_
 
 
 `logs/`以下に各モデルの学習ログが、
-`models/`以下に各モデルの実装が、
-`src/`以下に訓練・推論ようのコードが置かれています。
+`src/`以下に訓練・推論用途 のコードが、
+`src/models/`以下に各モデルの定義が置かれています。
 
 ```
 .
 ├── LICENSE
 ├── README.md
 ├── logs
-│   ├── lstm
-│   │   ├── losses
-│   │   │   ├── fold-0-log.csv
-│   │   │   ├── fold-0.png
+│   ├── lstm
+│   │   ├── losses
+│   │   │   ├── fold-0-log.csv
+│   │   │   ├── fold-0.png
+…
+│   │   │   ├── fold-4-log.csv
+│   │   │   └── fold-4.png
+│   │   ├── models
+│   │   │   ├── checkpoint
+│   │   │   ├── fold-0.ckpt.data-00000-of-00001
+│   │   │   ├── fold-0.ckpt.index
+…
+│   │   │   ├── fold-4.ckpt.data-00000-of-00001
+│   │   │   └── fold-4.ckpt.index
+│   │   └── params.yaml
+│   ├── pseudo_lstm
+…
+│   ├── resnet_1
 ...
-│   │   │   ├── fold-4-log.csv
-│   │   │   └── fold-4.png
-│   │   └── params.yaml
-│   ├── resnet_1
+│   ├── resnet_2
+…
+│   └── wavenet
 ...
-│   ├── resnet_2
-...
-│   │   └── params.yaml
-│   └── wavenet
-...
-├── models
-│   ├── lstm.py
-│   ├── resnet_1.py
-│   ├── resnet_2.py
-│   └── wavenet.py
 ├── requirements.txt
 └── src
-    ├── model.py
+    ├── models
+    │   ├── core_model.py
+    │   ├── lstm.py
+    │   ├── resnet_1.py
+    │   ├── resnet_2.py
+    │   └── wavenet.py
     ├── predict.py
     ├── pseudo_train.py
     ├── train.py
