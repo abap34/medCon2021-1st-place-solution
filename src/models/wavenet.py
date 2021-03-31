@@ -1,4 +1,4 @@
-from model import BaseModel
+import model
 
 import tensorflow as tf
 import tensorflow_addons as tfa
@@ -8,7 +8,7 @@ from tensorflow.keras.layers import (Add, Conv1D, Dense,
 from tensorflow.keras.optimizers import Adam
 
 
-def WaveNetResidualConv1D(num_filters, kernel_size, stacked_layer):
+def wave_net_residual_conv1d(num_filters, kernel_size, stacked_layer):
     def build_residual_block(l_input):
         resid_input = l_input
         for dilation_rate in [2 ** i for i in range(stacked_layer)]:
@@ -33,13 +33,13 @@ def get_model(input_shape=(800, 12)):
     l_input = Input(shape=(input_shape))
     cat_input = Input(shape=(2,), name='cat_input')
     x = Conv1D(num_filters_, 1, padding='same')(l_input)
-    x = WaveNetResidualConv1D(num_filters_, kernel_size_, stacked_layers_[0])(x)
+    x = wave_net_residual_conv1d(num_filters_, kernel_size_, stacked_layers_[0])(x)
     x = Conv1D(num_filters_ * 2, 1, padding='same')(x)
-    x = WaveNetResidualConv1D(num_filters_ * 2, kernel_size_, stacked_layers_[1])(x)
+    x = wave_net_residual_conv1d(num_filters_ * 2, kernel_size_, stacked_layers_[1])(x)
     x = Conv1D(num_filters_ * 4, 1, padding='same')(x)
-    x = WaveNetResidualConv1D(num_filters_ * 4, kernel_size_, stacked_layers_[2])(x)
+    x = wave_net_residual_conv1d(num_filters_ * 4, kernel_size_, stacked_layers_[2])(x)
     x = Conv1D(num_filters_ * 8, 1, padding='same')(x)
-    x = WaveNetResidualConv1D(num_filters_ * 8, kernel_size_, stacked_layers_[3])(x)
+    x = wave_net_residual_conv1d(num_filters_ * 8, kernel_size_, stacked_layers_[3])(x)
     x = GlobalAveragePooling1D()(x)
     l_output = Dense(32, activation='relu')(x)
     concat_layer_out = tf.keras.layers.Concatenate()([l_output, cat_input])
@@ -51,6 +51,6 @@ def get_model(input_shape=(800, 12)):
     return model
 
 
-class Model(BaseModel):
+class Model(model.BaseModel):
     def __init__(self, params):
         super().__init__(params, get_model())
