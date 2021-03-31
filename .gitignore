@@ -2,3 +2,4 @@
 .idea
 data/*
 logs/*/models/*
+venv/*
