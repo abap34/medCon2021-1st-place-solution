@@ -9,6 +9,7 @@ from omegaconf import OmegaConf
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
+import pandas as pd
 
 MODEL_NAMES_DICT = {
     'wavenet': wavenet.Model,
@@ -24,7 +25,6 @@ def main(param):
     train, test, submit = utils.read_data("./data")
     utils.info('read wave data...')
     train_wave = utils.read_wave("./data/ecg/" + train["Id"] + ".npy")
-    test_wave = utils.read_wave("./data/ecg/" + test["Id"] + ".npy")
     train_y = train["target"]
 
     train["sex"] = train["sex"].replace({"male": 0, "female": 1})
@@ -87,6 +87,7 @@ def main(param):
         val_preds[val_index] += val_pred
 
     utils.info("AUC score:", roc_auc_score(train_y[human_mask], val_preds))
+    pd.DataFrame(val_preds, columns=["pred"]).to_csv('./logs/{}/val_pred.csv'.format(param.model_name))
 
 
 if __name__ == '__main__':
