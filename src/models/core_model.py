@@ -52,7 +52,7 @@ class BaseModel:
         learning_logs.to_csv('./logs/{}/losses/fold-{}-log.csv'.format(self.params.model_name, fold_index))
         OmegaConf.save(self.params, './logs/{}/params.yaml'.format(self.params.model_name, fold_index))
 
-        return self.model.predict(val_x)
+        return self.predict(val_x, fold_index)
 
     def predict(self, test_x, fold_index):
         checkpoint_filepath = "./logs/{}/models/fold-{}.ckpt".format(self.params.model_name, fold_index)
