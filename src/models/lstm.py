@@ -43,7 +43,7 @@ def get_model(input_shape=(800, 12)):
     z = Dense(10, activation="tanh")(combined)
     z = Dense(1, activation="sigmoid")(z)
 
-    model = model.SAMModel(
+    model = core_model.SAMModel(
         inputs=[
             input1,
             input2
