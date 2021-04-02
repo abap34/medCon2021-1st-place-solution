@@ -4,3 +4,4 @@ data/*
 logs/*/models/*
 venv/*
 */ensemble/*
+*checkpoint*
