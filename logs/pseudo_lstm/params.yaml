@@ -1,0 +1,3 @@
+model_name: pseudo_lstm
+epoch: 25
+batch_size: 64
