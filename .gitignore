@@ -3,3 +3,4 @@
 data/*
 logs/*/models/*
 venv/*
+*/ensemble/*
